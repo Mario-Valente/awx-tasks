@@ -3,7 +3,7 @@
   tasks:
    - name: install apache
      apt:
-      name: wget
+      name: apache2
       state: present
       update_cache: yes
     
