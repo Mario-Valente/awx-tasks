@@ -1,9 +1,9 @@
 - name: Install apache httpd  (state=present is optional)
   hosts: all
   tasks:
-   - name: install apache
-     apt:
-      name: apache2
-      state: present
-      update_cache: yes
+   - name: teste comands
+     shell: |
+      echo "teste vindo da disnei" > teste.txt
+    args:
+      executable: /bin/bash
     
