@@ -6,4 +6,4 @@
       name: wget
       state: present
       update_cache: yes
-      become: true
+    
