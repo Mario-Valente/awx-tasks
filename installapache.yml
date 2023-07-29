@@ -3,7 +3,7 @@
   tasks:
    - name: teste comands
      shell: |
-      echo "teste vindo da disnei" > teste.txt
+      {{comand_teste}}
      args:
       executable: /bin/bash
     
