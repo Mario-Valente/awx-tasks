@@ -4,6 +4,6 @@
    - name: teste comands
      shell: |
       echo "teste vindo da disnei" > teste.txt
-    args:
+     args:
       executable: /bin/bash
     
