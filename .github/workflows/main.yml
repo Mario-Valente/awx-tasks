@@ -1,0 +1,17 @@
+name: Meu Fluxo de Trabalho
+
+on: workflow_dispatch
+
+
+jobs:
+  meu_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Perguntar por um input
+        id: input_step
+        run: echo "O que você quer fazer?"
+        env:
+          INPUT_VAR: ${{ github.event.head_commit.message }}
+        
+      - name: Imprimir o input
+        run: echo "O input recebido foi:" $INPUT_VAR
