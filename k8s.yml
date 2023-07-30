@@ -1,0 +1,31 @@
+- name: Run command in pods 
+  hosts: all
+  tasks: 
+    
+    - name: Obter as credenciais do cluster EKS
+      command: "{{ kubectl_path }} eks get-token --cluster-name $CLUSTER_NAME"
+      register: kubeconfig_token
+    
+    - name: Obter o nome do pod dinamicamente
+      k8s_facts:
+        kubeconfig: /caminho/para/seu/kubeconfig  
+        namespace: "{{ namespace }}"
+        label_selectors:
+          - "{{ label_selector }}"
+      register: pod_info
+    
+    - name: Verificar se o pod foi encontrado
+      fail:
+        msg: "Nenhum pod foi encontrado com o seletor '{{ label_selector }}' no namespace '{{ namespace }}'"
+      when: pod_info.resources | length == 0
+
+    - name: Extrair o nome do pod
+      set_fact:
+        pod_name: "{{ pod_info.resources[0].metadata.name }}"
+
+    - name: Executar comando no pod
+      k8s:
+        kubeconfig: /caminho/para/seu/kubeconfig  # Substitua pelo caminho correto
+        namespace: "{{ namespace }}"
+        pod: "{{ pod_name }}"
+        command: "/bin/bash -c 'comando_a_ser_executado'"
