@@ -35,7 +35,6 @@
       when: pod_info.resources | length == 0
 
     - name: Extrair o nome do pod
-      :
         pod_name: "{{ pod_info.resources[0].metadata.name }}"
 
     - name: Executar comando no pod
