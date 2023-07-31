@@ -42,4 +42,4 @@
         kubeconfig: /root/.kube/config # Substitua pelo caminho correto
         namespace: "{{ namespace }}"
         pod: "{{ pod_name }}"
-        command: "/bin/bash -c  {{COMAND}}"set_fact
+        command: "{{COMAND}}"
