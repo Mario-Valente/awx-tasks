@@ -7,12 +7,12 @@
         secret_value: "{{ lookup('aws_ssm', 'ACCESS_AWS', region='us-east-1')}}"
         secret_value2: "{{lookup('aws_ssm',  'SECRET_AWS', region='us-east-1')}}"
         
-   # - name: configure aws 
-   #   shell: 
-   #     aws configure set aws_access_key_id "secret_value"
-   #     aws configure set aws_secret_access_key "secret_value2"
-   #   args:
-   #    executable: /bin/bash
+    - name: configure aws 
+       shell: |
+         aws configure set aws_access_key_id "secret_value"
+         aws configure set aws_secret_access_key "secret_value2"
+       args:
+        executable: /bin/bash
 
     - name: view valor
       debug:
