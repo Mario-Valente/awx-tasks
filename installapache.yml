@@ -4,7 +4,7 @@
 
     - name: lookup secretsmanager secret in the current region
       set_fact: 
-        secret_value: "{{ lookup('aws_ssm', 'ACCESS_AWS')}}"
-        secret_value2: "{{lookup('aws_ssm', 'SECRET_AWS')}}"
+        secret_value: "{{ lookup('aws_ssm', 'region=us-east-1''ACCESS_AWS')}}"
+        secret_value2: "{{lookup('aws_ssm', 'region=us-east-1' 'SECRET_AWS')}}"
         
     
