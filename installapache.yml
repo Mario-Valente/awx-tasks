@@ -4,7 +4,7 @@
     
    
     - name: Obter credenciais do cluster EKS
-      aws_eks:
+      aws_eks_cluster:
         name: "{{ CLUSTER_NAME }}"
         region: us-east-1
       register: eks_result
