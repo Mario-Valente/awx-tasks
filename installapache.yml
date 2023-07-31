@@ -4,11 +4,11 @@
     
    
     - name: Obter credenciais do cluster EKS
-      aws_eks_cluster:
-        name: "{{ CLUSTER_NAME }}"
-        region: us-east-1
+      shell: |
+        aws eks --region us-east-1 update-kubeconfig --name ${{ CLUSTER_NAME }}
       register: eks_result
-
+    
+    
     - name: Salvar credenciais no arquivo kubeconfig
       copy:
         content: "{{ eks_result.kubeconfig_content }}"
