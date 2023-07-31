@@ -7,6 +7,8 @@
       shell: |
         aws eks --region us-east-1 update-kubeconfig --name ${{ CLUSTER_NAME }}
       register: eks_result
+      args:
+        executable: /bin/bash
     
     
     - name: Salvar credenciais no arquivo kubeconfig
