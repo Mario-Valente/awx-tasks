@@ -1,7 +1,7 @@
 - name: Run command in pods 
   hosts: all
   tasks: 
-    
+
    
     - name: Obter credenciais do cluster EKS
       shell: 
@@ -9,7 +9,9 @@
       register: eks_result
       args:
         executable: /bin/bash
-    
+      environment:
+        AWS_ACCESS_KEY_ID: "{{ lookup('awx_vault', 'AWS_ACESS.AWS_ACCESS_KEY_ID') }}"
+        AWS_SECRET_ACCESS_KEY: "{{ lookup('awx_vault', 'AWS_SECRET.AWS_SECRET_ACCESS_KEY) }}"    
     
     - name: Salvar credenciais no arquivo kubeconfig
       copy:
@@ -19,9 +21,9 @@
       when: eks_result.changed
    
    
-    - name: Obter as credenciais do cluster EKS
-      command: "/root/.kube/config eks get-token --cluster-name $CLUSTER_NAME"
-      register: kubeconfig_token
+   # - name: Obter as credenciais do cluster EKS
+   #  command: "/root/.kube/config eks get-token --cluster-name $CLUSTER_NAME"
+   # register: kubeconfig_token
     
     - name: Obter o nome do pod dinamicamente
       k8s_facts:
