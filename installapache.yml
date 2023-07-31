@@ -2,58 +2,9 @@
   hosts: all
   tasks: 
 
-
-
-    - name: Obter credenciais do Vault 1
-      awx.awx.awx_credential:
-        name: "AWS_ACCESS_KEY_ID" 
-        export: yes
-      register: AWS_ACCESS
-
-    - name: Obter credenciais do Vault 2
-      awx.awx.awx_credential:
-        name: "AWS_SECRET_ACCESS_KEY"  
-        export: yes
-      register: AWS_SECRET
-      
-    - name: Obter credenciais do cluster EKS
-      shell: 
-        aws eks --region us-east-1 update-kubeconfig --name {{ CLUSTER_NAME }}
-      register: eks_result
-      args:
-        executable: /bin/bash 
-      environment: 
-        AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS }}"
-        AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET }}"  
+    - name: lookup secretsmanager secret in the current region
+      set_fact: 
+        secret_value: "{{ lookup('aws_ssm', 'ACCESS_AWS')}}"
+        secret_value2: "{{lookup('aws_ssm', 'SECRET_AWS')}}"
+        
     
-    - name: Salvar credenciais no arquivo kubeconfig
-      copy:
-        content: "{{ eks_result.kubeconfig_content }}"
-        dest: /root/.kube/config  
-        mode: '0600'
-      when: eks_result.changed
-   
-   
-   # - name: Obter as credenciais do cluster EKS
-   #  command: "/root/.kube/config eks get-token --cluster-name $CLUSTER_NAME"
-   # register: kubeconfig_token
-    
-    - name: Obter o nome do pod dinamicamente
-      k8s_facts:
-        kubeconfig: /root/.kube/config 
-        namespace: "{{ namespace }}"
-        label_selectors:
-          - "service-geolocation-api"
-      register: pod_info
-    
-    - name: Verificar se o pod foi encontrado
-      fail:
-        msg: "Nenhum pod foi encontrado com o seletor 'service-geolocation-api' no namespace '{{ namespace }}'"
-      when: pod_info.resources | length == 0
-      
-    - name: Executar comando no pod
-      k8s:
-        kubeconfig: /root/.kube/config 
-        namespace: "{{ namespace }}"
-        pod: "{{ pod_info.resources[0].metadata.name }}"
-        command: "/bin/bash -c  {{COMAND}}"
