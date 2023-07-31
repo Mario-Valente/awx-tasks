@@ -14,4 +14,4 @@ jobs:
           INPUT_VAR: ${{ github.event.head_commit.message }}
         
       - name: Imprimir o input
-        run: echo "O input recebido foi: $INPUT_VAR"
+        run: echo "O input recebido foi:" $INPUT_VAR

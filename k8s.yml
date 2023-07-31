@@ -4,7 +4,7 @@
     
    
     - name: Obter credenciais do cluster EKS
-      aws_eks:
+      aws_eks_cluster:
         name: "{{ CLUSTER_NAME }}"
         region: us-east-1
       register: eks_result
@@ -12,13 +12,13 @@
     - name: Salvar credenciais no arquivo kubeconfig
       copy:
         content: "{{ eks_result.kubeconfig_content }}"
-        dest: /root/.kube/config  # Substitua pelo caminho correto do kubeconfig
+        dest: /root/.kube/config  
         mode: '0600'
       when: eks_result.changed
    
    
     - name: Obter as credenciais do cluster EKS
-      command: "{{ kubectl_path }} eks get-token --cluster-name $CLUSTER_NAME"
+      command: "/root/.kube/config eks get-token --cluster-name $CLUSTER_NAME"
       register: kubeconfig_token
     
     - name: Obter o nome do pod dinamicamente
@@ -33,14 +33,10 @@
       fail:
         msg: "Nenhum pod foi encontrado com o seletor 'service-geolocation-api' no namespace '{{ namespace }}'"
       when: pod_info.resources | length == 0
-
-    - name: Extrair o nome do pod
-      :
-        pod_name: "{{ pod_info.resources[0].metadata.name }}"
-
+      
     - name: Executar comando no pod
       k8s:
-        kubeconfig: /root/.kube/config # Substitua pelo caminho correto
+        kubeconfig: /root/.kube/config 
         namespace: "{{ namespace }}"
-        pod: "{{ pod_name }}"
-        command: "/bin/bash -c  {{COMAND}}"set_fact
+        pod: "{{ pod_info.resources[0].metadata.name }}"
+        command: "/bin/bash -c  {{COMAND}}"
