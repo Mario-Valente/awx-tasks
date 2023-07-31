@@ -5,7 +5,7 @@
    
     - name: Obter credenciais do cluster EKS
       shell: 
-        aws eks --region us-east-1 update-kubeconfig --name ${{ CLUSTER_NAME }}
+        aws eks --region us-east-1 update-kubeconfig --name {{ CLUSTER_NAME }}
       register: eks_result
       args:
         executable: /bin/bash
