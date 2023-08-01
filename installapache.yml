@@ -19,6 +19,7 @@
       k8s_facts:
         kubeconfig: /root/.kube/config 
         namespace: "{{ namespace }}"
+        kind: Pod
         label_selectors:
           - "service-geolocation-api"
       register: pod_info  
