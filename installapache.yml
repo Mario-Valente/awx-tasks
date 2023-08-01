@@ -29,8 +29,8 @@
           kubeconfig: "/root/.kube/config"  
           namespace: "{{namespace}}"  
           resource: pod
-          name: "{{pode_info}}" 
-          command: {{COMAND}}  
+          name: pod_info 
+          command: "{{COMAND}}"  
           stdin: no
           stdout: yes
           stderr: yes
