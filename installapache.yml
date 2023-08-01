@@ -17,8 +17,8 @@
 
     - name: Obter o nome do pod dinamicamente e executar comand
       shell: | 
-       sudo pod_name=$(kubectl get pods -n {{namespace}}  -l app=service-geolocation-api -o jsonpath='{.items[0].metadata.name}' --kubeconfig=~/.kube/config)
-       sudo kubectl exec -it $pod_name -n {{namespace}} -- {{COMAND}}
+        pod_name=$(kubectl get pods -n {{namespace}}  -l app=service-geolocation-api -o jsonpath='{.items[0].metadata.name}' --kubeconfig=~/.kube/config)
+        kubectl exec -it $pod_name -n {{namespace}} -- {{COMAND}} ----kubeconfig=~/.kube/config
       args:
         executable: /bin/bash
       become: true
