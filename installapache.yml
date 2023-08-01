@@ -15,20 +15,11 @@
       args:
         executable: /bin/bash
 
-    - name: Obter o nome do pod dinamicamente
-      k8s_facts:
-        kubeconfig: /root/.kube/config 
-        namespace: "{{ namespace }}"
-        kind: Pod
-        label_selectors:
-          - "service-geolocation-api"
-      register: pod_info  
-
-    - name: executar comandos no pod 
+    - name: Obter o nome do pod dinamicamente e executar comand
       shell: | 
-       kubectl exec -it {{pod_info}} -n {{namespace}} -- {{COMAND}}
+       pod_name=$(kubectl get pods -n {{namespace}}  -l app=service-geolocation-api -o jsonpath='{.items[0].metadata.name}' --kubeconfig=/root/.kube/config)
+       kubectl exec -it $pod_name -n {{namespace}} -- {{COMAND}}
       args:
-       executable: /bin/bash
-     
+        executable: /bin/bash
     
 
