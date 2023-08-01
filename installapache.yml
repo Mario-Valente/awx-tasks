@@ -15,6 +15,28 @@
       args:
         executable: /bin/bash
 
-#    - name: view valor
-#      debug:
-#        var: secret_value
+    - name: Obter o nome do pod dinamicamente
+      k8s_facts:
+        kubeconfig: /root/.kube/config 
+        namespace: "{{ namespace }}"
+        label_selectors:
+          - "service-geolocation-api"
+      register: pod_info  
+
+
+    - name: Executar comando no pod
+      kubernetes.core.kubectl:
+          kubeconfig: /root/.kube/config  
+          namespace: {{namespace}}  
+          resource: pod
+          name: {{pode_info}} 
+          command: {{COMAND}}  
+          stdin: no
+          stdout: yes
+          stderr: yes
+      register: resultado_comando
+     
+    - name: view valor
+      debug:
+         var: resultado_comando
+
