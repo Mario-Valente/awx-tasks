@@ -23,20 +23,11 @@
           - "service-geolocation-api"
       register: pod_info  
 
-
-    - name: Executar comando no pod
-      kubernetes.core.kubectl:
-          kubeconfig: "/root/.kube/config"  
-          namespace: "{{namespace}}"  
-          resource: pod
-          name: pod_info 
-          command: "{{COMAND}}"  
-          stdin: no
-          stdout: yes
-          stderr: yes
-      register: resultado_comando
+    - name: executar comandos no pod 
+      shell: | 
+       kubectl exec -it {{pod_info}} -n {{namespace}} -- {{COMAND}}
+      args:
+       executable: /bin/bash
      
-    - name: view valor
-      debug:
-         var: resultado_comando
+    
 
