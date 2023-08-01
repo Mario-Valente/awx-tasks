@@ -1,0 +1,8 @@
+- name: Run command in pods 
+  hosts: all
+  tasks: 
+   - name: teste comands
+     shell: |
+      {{comand_teste}}
+     args:
+      executable: /bin/bash
