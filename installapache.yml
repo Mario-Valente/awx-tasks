@@ -26,10 +26,10 @@
 
     - name: Executar comando no pod
       kubernetes.core.kubectl:
-          kubeconfig: /root/.kube/config  
-          namespace: {{namespace}}  
+          kubeconfig: "/root/.kube/config"  
+          namespace: "{{namespace}}"  
           resource: pod
-          name: {{pode_info}} 
+          name: "{{pode_info}}" 
           command: {{COMAND}}  
           stdin: no
           stdout: yes
