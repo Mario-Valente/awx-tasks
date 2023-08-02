@@ -5,7 +5,7 @@
     - name: Obter o nome do pod dinamicamente e executar comand
       shell: | 
         kubectl cluster-info --context kind-kind 
-        pod_name=$(kubectl get pods   -l app=service-geolocation-api -o jsonpath='{.items[0].metadata.name}' )
+        pod_name=$(kubectl get pods   -l app=nginx -o jsonpath='{.items[0].metadata.name}' )
         kubectl exec -it $pod_name -- {{COMAND}}
       args:
         executable: /bin/bash
