@@ -5,7 +5,7 @@
     
     - name: Obter o nome do pod dinamicamente e executar comand
       shell: | 
-        kubectl verison
+        kubectl version
  
       args:
         executable: /bin/bash
