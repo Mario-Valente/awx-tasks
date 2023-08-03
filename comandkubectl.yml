@@ -2,11 +2,12 @@
   hosts: all
   tasks: 
    
+    
     - name: Obter o nome do pod dinamicamente e executar comand
       shell: | 
         kubectl cluster-info --context kind-kind 
-        kubectl exec -it $( pod_name=$(kubectl get pods   -l app=nginx -o jsonpath='{.items[0].metadata.name}' )) -- {{COMAND}}
+        kubectl exec -it --kubeconfig=/home/mario/.kube/config  $( pod_name=$(kubectl get pods   -l app=nginx -o jsonpath='{.items[0].metadata.name}' )) -- {{COMAND}}
       args:
         executable: /bin/bash
-      become: true
+    
      
